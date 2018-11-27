@@ -477,9 +477,12 @@ def discard_claim(deposit_claim: DepositClaim) -> bool:
     assert isinstance(deposit_claim, DepositClaim)
 
     with transaction.atomic(using='control'):
-        DepositAccount.objects.select_for_update().get(
-            pk=deposit_claim.payer_deposit_account_id
-        )
+        try:
+            DepositAccount.objects.select_for_update().get(
+                pk=deposit_claim.payer_deposit_account_id
+            )
+        except DepositAccount.DoesNotExist:
+            assert False
 
         if deposit_claim.tx_hash is None:
             claim_removed = False
