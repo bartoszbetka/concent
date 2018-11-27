@@ -18,6 +18,7 @@ from signing_service.constants import SIGNING_SERVICE_DEFAULT_PORT
 from signing_service.constants import SIGNING_SERVICE_DEFAULT_INITIAL_RECONNECT_DELAY
 from signing_service.constants import SIGNING_SERVICE_DEFAULT_RECONNECT_ATTEMPTS
 from signing_service.constants import SIGNING_SERVICE_MAXIMUM_RECONNECT_TIME
+from signing_service.exceptions import Base64DecodeError
 from signing_service.exceptions import SigningServiceValidationError
 from signing_service.signing_service import _parse_arguments
 from signing_service.signing_service import SigningService
@@ -280,7 +281,7 @@ class SigningServiceParseArgumentsTestCase(TestCase):
             '--concent-cluster-host', '127.0.0.1',
             '--concent-public-key', self.concent_public_key_encoded[:-1],
         ]
-        with self.assertRaises(SigningServiceValidationError):
+        with self.assertRaises(Base64DecodeError):
             _parse_arguments()
 
 

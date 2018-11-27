@@ -17,7 +17,7 @@ from golem_messages.cryptography import verify_pubkey
 from golem_messages.exceptions import InvalidKeys
 
 from signing_service.constants import ETHEREUM_PRIVATE_KEY_REGEXP
-from signing_service.exceptions import SigningServiceValidationError
+from signing_service.exceptions import Base64DecodeError
 
 logger = logging.getLogger()
 
@@ -116,7 +116,7 @@ class SecretProvider(Action):
                 self.const = b64decode(self.const)
             except binascii.Error as exception:
                 logger.error(f'Unable to decode "{self.const}", {exception}')
-                raise SigningServiceValidationError(f'Unable to decode "{self.const}", {exception}')
+                raise Base64DecodeError(f'Unable to decode "{self.const}", {exception}')
             if self.string_decode:
                 self.const = self.const.decode()
         setattr(namespace, self.dest, self.const)
