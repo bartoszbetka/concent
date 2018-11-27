@@ -4,7 +4,6 @@ import logging.config
 import os
 import signal
 import socket
-import sys
 from contextlib import closing
 from pathlib import Path
 from time import sleep

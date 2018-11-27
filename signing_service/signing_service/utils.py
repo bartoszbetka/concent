@@ -98,14 +98,15 @@ class SecretProvider(Action):
         self,
         parser: ArgumentParser,
         namespace: Namespace,
-        values: str,
+        value: str,
         option_string: Optional[str]=None
     ) -> None:
-        if values is not None and self.use_file:
-            with open(values) as file:
+        assert value is not None
+        if self.use_file:
+            with open(value) as file:
                 self.const = file.read()
-        elif values is not None and self.read_command_line:
-            self.const = values
+        elif self.read_command_line:
+            self.const = value
         elif self.env_variable_name is not None:
             self.const = os.environ.get(self.env_variable_name)
         else:
