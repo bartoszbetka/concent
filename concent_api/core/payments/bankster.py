@@ -376,6 +376,8 @@ def settle_overdue_acceptances(
                 for subtask_results_accepted in acceptances
             ):
                 raise BanksterTimestampError
+        else:
+            raise BanksterTimestampError
 
         # Concent gets list of forced payments from payment API where T0 <= payment_ts + PAYMENT_DUE_TIME.
         list_of_forced_payments = service.get_list_of_payments(  # pylint: disable=no-value-for-parameter
