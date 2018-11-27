@@ -275,6 +275,14 @@ class SigningServiceParseArgumentsTestCase(TestCase):
         os.remove(ethereum_private_key_tmp_file)
         os.remove(signing_service_private_key_tmp_file)
 
+    def test_that_argument_parses_should_fail_gracefully_when_unable_to_decode_base64_value(self):
+        sys.argv += [
+            '--concent-cluster-host', '127.0.0.1',
+            '--concent-public-key', self.concent_public_key_encoded[:-1],
+        ]
+        with self.assertRaises(SigningServiceValidationError):
+            _parse_arguments()
+
 
 class SigningServiceValidateArgumentsTestCase(TestCase):
 

@@ -4,6 +4,7 @@ import logging.config
 import os
 import signal
 import socket
+import sys
 from contextlib import closing
 from pathlib import Path
 from time import sleep
@@ -581,7 +582,10 @@ def main() -> None:
     logging.config.fileConfig(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'logging.ini'))
 
     # Parse required arguments.
-    args = _parse_arguments()
+    try:
+        args = _parse_arguments()
+    except SigningServiceValidationError as exception:
+        sys.exit(exception)
 
     raven_client = Client(
         dsn=args.sentry_dsn,
