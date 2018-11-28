@@ -107,10 +107,9 @@ class SecretProvider(Action):
                 self.const = file.read()
         elif self.read_command_line:
             self.const = value
-        elif self.env_variable_name is not None:
-            self.const = os.environ.get(self.env_variable_name)
         else:
-            assert False
+            assert self.env_variable_name is not None
+            self.const = os.environ.get(self.env_variable_name)
         if self.base64_convert:
             assert isinstance(self.const, str)
             try:

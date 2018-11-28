@@ -281,8 +281,13 @@ class SigningServiceParseArgumentsTestCase(TestCase):
             '--concent-cluster-host', '127.0.0.1',
             '--concent-public-key', self.concent_public_key_encoded[:-1],
         ]
-        with self.assertRaises(Base64DecodeError):
+        with self.assertRaises(Base64DecodeError) as error:
             _parse_arguments()
+
+        self.assertIn(
+            f'Unable to decode "{self.concent_public_key_encoded[:-1]}"',
+            str(error.exception)
+        )
 
 
 class SigningServiceValidateArgumentsTestCase(TestCase):
